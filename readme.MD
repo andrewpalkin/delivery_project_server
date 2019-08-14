@@ -1,7 +1,33 @@
-## Вебинар "Аутентификация и авторизация пользователей с помощью промежуточного ПО Passport.js"
+List of REST APIs:
 
-1. git clone
-2. npm i
-3. npm start
+../auth/register
+    
+    mandatory input fields:
+    - email
+    - password
+    
+    output JSON example:
+    {
+        "id": "5d53bda7d7200d2a88213558",
+        "email": "test@gmail.com",
+        "verification": "SEND",
+        "createDate": "2019-08-14T07:51:35.267Z"
+    }
+        
+../auth/login
+    
+    mandatory input fields:
+    - email
+    - password
+    
+    output JSON example:
+    {
+        "id": "5d53bda7d7200d2a88213558",
+        "email": "test@gmail.com",
+        "verification": "SEND",
+        "createDate": "2019-08-14T07:51:35.267Z"
+    }
+        
+../auth/logout
 
-[Video](https://www.youtube.com/watch?v=LDnwNtWIq_4)
+
