@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
+const sendEmail = require('../utils/mailer');
 
 //User Model
 const User = require('../models/User');
@@ -68,14 +69,16 @@ router.post('/register', (req, res) => {
                     errors.push({msg: 'The user with this email already exist'});
                     res.status(500).send(errors);
                 } else {
+                    rand=Math.floor((Math.random() * 100) + 54);
                     const newUser = new User({
                         email: email,
                         password: password,
                         createDate: createDate,
                         updateDate: updateDate,
-                        verification: verification
+                        verification: rand
                     });
 
+                    sendEmail({userMail: newUser.email,verification: rand, host: req.get('host')});    
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(newUser.password, salt, (err, hash) => {
                             if (err) throw err;
@@ -96,5 +99,21 @@ router.post('/register', (req, res) => {
             .catch(err => console.log(err));
     }
 });
+
+router.get('/verify/:verification',function(req, res){
+    console.log(req.protocol+":/"+req.get('host'));
+    console.log(req.params.verification);
+    User.findOne({'verification': req.params.verification}, function(err, user) {
+        if(user.verification === req.params.verification) {
+            console.log('Code is valid! User Verification is passed');
+            User.updateOne({'verification': req.params.verification}, {$set: {'verification': 'true'}}, function(err, res) {                
+                console.log('User was been verifyed');                
+            });
+            res.redirect('/login');
+        } else {
+            console.log('The ID is vrong, Reject the User');
+        }
+    });
+});    
 
 module.exports = router;
