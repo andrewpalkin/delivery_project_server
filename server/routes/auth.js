@@ -43,7 +43,7 @@ router.get('/logout', auth, (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    const {email, password, createDate, updateDate, verification} = req.body;
+    const {email, password, createDate, updateDate} = req.body;
 
     let errors = [];
     //Check for mandatory fields
@@ -69,16 +69,15 @@ router.post('/register', (req, res) => {
                     errors.push({msg: 'The user with this email already exist'});
                     res.status(500).send(errors);
                 } else {
-                    rand=Math.floor((Math.random() * 100) + 54);
+                    let rand = Math.random().toString(36).substr(2);
                     const newUser = new User({
                         email: email,
                         password: password,
                         createDate: createDate,
                         updateDate: updateDate,
-                        verification: rand
+                        verificationString: rand
                     });
 
-                    sendEmail({userMail: newUser.email,verification: rand, host: req.get('host')});    
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(newUser.password, salt, (err, hash) => {
                             if (err) throw err;
@@ -92,6 +91,7 @@ router.post('/register', (req, res) => {
                                     createDate: user.createDate
                                 }))
                                 .catch(user => console.log(err))
+                            sendEmail({userMail: newUser.email, verificationString: rand, host: req.get('host')});
                         });
                     });
                 }
@@ -100,20 +100,38 @@ router.post('/register', (req, res) => {
     }
 });
 
-router.get('/verify/:verification',function(req, res){
-    console.log(req.protocol+":/"+req.get('host'));
-    console.log(req.params.verification);
-    User.findOne({'verification': req.params.verification}, function(err, user) {
-        if(user.verification === req.params.verification) {
-            console.log('Code is valid! User Verification is passed');
-            User.updateOne({'verification': req.params.verification}, {$set: {'verification': 'true'}}, function(err, res) {                
-                console.log('User was been verifyed');                
-            });
-            res.redirect('/login');
-        } else {
-            console.log('The ID is vrong, Reject the User');
-        }
-    });
-});    
+router.get('/verify/:verificationString', function (req, res) {
+    console.log(req.protocol + ":/" + req.get('host'));
+    console.log(req.params.verificationString);
+
+    User.findOne({verificationString: req.params.verificationString})
+        .then(user => {
+            if (user) {
+                if('DONE' === user.verification)
+                {
+                    console.log('The current user already verified');
+                    res.status(500).send({msg: 'The current user already verified'});
+                }
+
+                console.log('Code is valid! User Verification is passed');
+                user.verification = 'DONE';
+                user.updateDate = Date.now();
+
+                user.save()
+                    .then(user => res.json({
+                        id: user._id,
+                        email: user.email,
+                        verification: user.verification,
+                        createDate: user.createDate
+                    }))
+                    .catch(user => console.log(err))
+            } else {
+                // User Exists
+                console.log('The user with this verification number not exist');
+                res.status(500).send({msg: 'The user with this verification number not exist'});
+            }
+        })
+        .catch(err => console.log(err));
+});
 
 module.exports = router;

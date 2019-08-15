@@ -21,6 +21,9 @@ const UserSchema = new mongoose.Schema({
     updateDate: {
         type: Date,
         default: Date.now()
+    },
+    verificationString:{
+        type: String
     }
 });
 

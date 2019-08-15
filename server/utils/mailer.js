@@ -1,30 +1,30 @@
-var nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 
-// transporter initialiser to use Gmail smpt protocol
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'kudenv.edu@gmail.com',
-    pass: 'kudenv.edu1981'
-  }
+// transporter initializer to use GMail SMTP protocol
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'kudenv.edu@gmail.com',
+        pass: 'kudenv.edu1981'
+    }
 });
 
-var sendEmail = function(data) {     
-    var link="http://"+data.host+"/auth/verify/"+data.verification;    
-    var mailOptions = {
+const sendEmail = function (data) {
+    let link = "http://" + data.host + "/auth/verify/" + data.verificationString;
+    let mailOptions = {
         from: 'kudenv.edu@gmail.com',
         to: data.userMail,
         subject: 'FrendlyShips confirmation email',
         text: 'Easy to keep your account safety',
-        html: "Hellow, <b> Please Click on the link to veryfy your email </br> <a href="+ link +">Click here to verify</a>"
-      };   
-    transporter.sendMail(mailOptions, function(error, info) {
+        html: "Hellow, <b> Please Click on the link to veryfy your email </br> <a href=" + link + ">Click here to verify</a>"
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-          console.log(error);
+            console.log(error);
         } else {
-          console.log('Email sent: ' + info.response);
+            console.log('Email sent: ' + info.response);
         }
-      });
+    });
 };
 
 module.exports = sendEmail;
