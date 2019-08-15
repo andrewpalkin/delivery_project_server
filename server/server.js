@@ -3,7 +3,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 const mongoose = require('mongoose');
-
+// const error = require('../api/middlewares/error');
 const server = express();
 const port = process.env.PORT || 3000;
 
@@ -51,8 +51,13 @@ server.use(passport.initialize());
 server.use(passport.session());
 
 //Routes
-server.use('/', require('./routes'));
+server.use('/v1', require('./routes'));
 server.use('/auth', require('./routes/auth'));
 server.use('/users', require('./routes/users'));
+
+// if error is not an instanceOf APIError, convert it.
+// app.use(error.converter);
+// catch 404 and forward to error handler
+// app.use(error.notFound);
 
 server.listen(port, () => console.log(`Example app listening on port ${port}!`));
