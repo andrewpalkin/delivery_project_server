@@ -51,7 +51,7 @@ server.use(passport.initialize());
 server.use(passport.session());
 
 //Routes
-server.use('/v1', require('./routes'));
+server.use('/', require('./routes/index'));
 server.use('/auth', require('./routes/auth'));
 server.use('/users', require('./routes/users'));
 

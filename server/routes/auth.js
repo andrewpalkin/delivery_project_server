@@ -43,44 +43,25 @@ router.get('/logout', auth, (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    const {email, password, createDate, updateDate} = req.body;
 
-    let errors = [];
-    //Check for mandatory fields
-    if (!email || !password) {
-        errors.push({msg: 'Please pass all mandatory fields'});
-    }
+    const newUser = new User(req.body);
+    let errors = newUser.validateSync();
 
-    //Check password length
-    if (password.length < 6) {
-        errors.push({msg: 'Password should be at least 6 characters'});
-    }
-
-    if (errors.length > 0) {
-        res.status(500).send(errors);
+    if (errors) {
+        res.status(500).send({name: errors.name, msg: errors.message});
     } else {
         // Validation passed
-        User.findOne({email: email})
+        User.findOne({email: newUser.email})
             .then(user => {
                 if (user) {
                     // User Exists
                     console.log('The user with this email already exist');
-
-                    errors.push({msg: 'The user with this email already exist'});
-                    res.status(500).send(errors);
+                    res.status(500).send({msg: 'The user with this email already exist'});
                 } else {
-                    let rand = Math.random().toString(36).substr(2);
-                    const newUser = new User({
-                        email: email,
-                        password: password,
-                        createDate: createDate,
-                        updateDate: updateDate,
-                        verificationString: rand
-                    });
+                    newUser.verificationString = Math.random().toString(36).substr(2);
 
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(newUser.password, salt, (err, hash) => {
-                            if (err) throw err;
                             newUser.password = hash;
                             newUser
                                 .save()
@@ -91,7 +72,11 @@ router.post('/register', (req, res) => {
                                     createDate: user.createDate
                                 }))
                                 .catch(user => console.log(err))
-                            sendEmail({userMail: newUser.email, verificationString: rand, host: req.get('host')});
+                            sendEmail({
+                                userMail: newUser.email,
+                                verificationString: newUser.verificationString,
+                                host: req.get('host')
+                            });
                         });
                     });
                 }
@@ -107,8 +92,7 @@ router.get('/verify', function (req, res) {
     User.findOne({email: req.query.email, verificationString: req.query.verificationString})
         .then(user => {
             if (user) {
-                if('DONE' === user.verification)
-                {
+                if ('DONE' === user.verification) {
                     console.log('The current user already verified');
                     res.status(500).send({msg: 'The current user already verified'});
                 }
