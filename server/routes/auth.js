@@ -11,22 +11,26 @@ const auth = (req, res, next) => {
     if (req.isAuthenticated()) {
         next();
     } else {
-        return res.redirect('/');
+        return res.status(401).send({msg: 'You are not authenticated–either not authenticated at all or authenticated incorrectly–but please reauthenticate and try again.'});
     }
 };
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', function (err, user) {
         if (err) {
-            return next(err);
+            return res.status(500).send({msg: 'Please check server for error details'});
         }
         if (!user) {
-            return res.send('Укажите правильный email или пароль!');
+            return res.status(500).send({msg: 'The email or password was not match in DB'});
         }
         req.logIn(user, function (err) {
             if (err) {
-                return next(err);
+                return res.status(500).send({msg: 'Please check server for error details'});
             }
+            if(user.verification !== 'DONE'){
+                return res.status(403).send({msg: 'Verification of email was not done'});
+            }
+
             return res.json({
                 id: user._id,
                 email: user.email,

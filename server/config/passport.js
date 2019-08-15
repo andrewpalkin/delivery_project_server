@@ -34,12 +34,10 @@ passport.use(
 
                 // Match the password
                 bcrypt.compare(password, user.password, (err, isMatch) => {
-
                     if (err) {
                         console.log(err);
                         return done(null, false);
                     }
-
                     if (isMatch) {
                         return done(null, user);
                     } else {

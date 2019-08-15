@@ -12,7 +12,8 @@ const UserSchema = new mongoose.Schema({
     },
     verification: {
         type: String,
-        default: 'SEND'
+        default: 'SEND',
+        enum: ['SEND', 'DONE']
     },
     createDate: {
         type: Date,
