@@ -100,11 +100,11 @@ router.post('/register', (req, res) => {
     }
 });
 
-router.get('/verify/:verificationString', function (req, res) {
+router.get('/verify', function (req, res) {
     console.log(req.protocol + ":/" + req.get('host'));
-    console.log(req.params.verificationString);
+    console.log(req.query.verificationString);
 
-    User.findOne({verificationString: req.params.verificationString})
+    User.findOne({email: req.query.email, verificationString: req.query.verificationString})
         .then(user => {
             if (user) {
                 if('DONE' === user.verification)

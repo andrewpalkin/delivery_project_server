@@ -10,7 +10,9 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendEmail = function (data) {
-    let link = "http://" + data.host + "/auth/verify/" + data.verificationString;
+    let link = "http://" + data.host + "/auth/verify?email=" + data.userMail + "&verificationString=" + data.verificationString;
+    console.log(link);
+
     let mailOptions = {
         from: 'kudenv.edu@gmail.com',
         to: data.userMail,
