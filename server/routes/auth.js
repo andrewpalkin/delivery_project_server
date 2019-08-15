@@ -71,7 +71,7 @@ router.post('/register', (req, res) => {
                                     verification: user.verification,
                                     createDate: user.createDate
                                 }))
-                                .catch(user => console.log(err))
+                                .catch(err => console.log(err));
                             sendEmail({
                                 userMail: newUser.email,
                                 verificationString: newUser.verificationString,
@@ -108,7 +108,7 @@ router.get('/verify', function (req, res) {
                         verification: user.verification,
                         createDate: user.createDate
                     }))
-                    .catch(user => console.log(err))
+                    .catch(err => console.log(err))
             } else {
                 // User Exists
                 console.log('The user with this verification number not exist');
