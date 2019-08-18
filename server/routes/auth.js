@@ -3,17 +3,10 @@ const router = express.Router();
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const sendEmail = require('../utils/mailer');
+const auth = require('../utils/authentication');
 
 //User Model
 const User = require('../models/User');
-
-const auth = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        next();
-    } else {
-        return res.status(401).send({msg: 'You are not authenticated–either not authenticated at all or authenticated incorrectly–but please reauthenticate and try again.'});
-    }
-};
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', function (err, user) {

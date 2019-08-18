@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ContactDetailsSchema = new mongoose.Schema({
+const ItemSchema = new mongoose.Schema({
 
     status: {
         type: String,
@@ -52,6 +52,6 @@ const ContactDetailsSchema = new mongoose.Schema({
     },
 });
 
-const ContactDetails = mongoose.model('ContactDetails', ContactDetailsSchema);
+const Item = mongoose.model('Item', ItemSchema);
 
-module.exports = ContactDetails;
+module.exports = Item;

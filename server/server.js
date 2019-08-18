@@ -54,5 +54,6 @@ server.use(passport.session());
 server.use('/', require('./routes/index'));
 server.use('/auth', require('./routes/auth'));
 server.use('/users', require('./routes/users'));
+server.use('/items', require('./routes/items'));
 
 server.listen(port, () => console.log(`Example app listening on port ${port}!`));

@@ -1,16 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../utils/authentication');
 
 //UserDetails Model
 const UserDetails = require('../models/UserDetails');
-
-const auth = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        next();
-    } else {
-        return res.status(401).send({msg: 'You are not authenticated–either not authenticated at all or authenticated incorrectly–but please reauthenticate and try again.'});
-    }
-};
 
 router.post('/saveDetails', auth, (req, res) => {
 
