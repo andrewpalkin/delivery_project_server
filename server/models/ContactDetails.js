@@ -18,6 +18,15 @@ const ContactDetailsSchema = new mongoose.Schema({
     preferredTime: [Number]
     ,
     preferredDays: [Number]
+    ,
+    createDate: {
+        type: Date,
+        default: Date.now()
+    },
+    updateDate: {
+        type: Date,
+        default: Date.now()
+    }
 });
 
 const ContactDetails = mongoose.model('ContactDetails', ContactDetailsSchema);
