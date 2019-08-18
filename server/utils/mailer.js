@@ -16,9 +16,9 @@ const sendEmail = function (data) {
     let mailOptions = {
         from: 'kudenv.edu@gmail.com',
         to: data.userMail,
-        subject: 'FrendlyShips confirmation email',
+        subject: 'FriendlyShips confirmation email',
         text: 'Easy to keep your account safety',
-        html: "Hellow, <b> Please Click on the link to veryfy your email </br> <a href=" + link + ">Click here to verify</a>"
+        html: "Hello, <b> please click on the link to verify your email. </br> <a href=" + link + ">Click here to verify email.</a>"
     };
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
