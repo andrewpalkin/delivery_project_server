@@ -34,10 +34,8 @@ const AddressSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    photoURL: {
-        type: String,
-        trim: true
-    },
+    pictureURL: [String]
+    ,
     createDate: {
         type: Date,
         default: Date.now()

@@ -87,6 +87,7 @@ POST ../items/create
     - createdBy
     - deliveryAddressID
     - pickUpAddressID
+    
     optional input fields:
     - handledBy
     - deadLineDate
@@ -132,7 +133,7 @@ POST ../items/update
     mandatory input fields (passed as query parameters):
     - id 
     
-    in case and field was not passed in input JSON, 
+    in case and some field was not passed in input JSON, 
     it will be erazed in DB if it was exist    
    
     madatory input fields (passed as JSON):
@@ -235,4 +236,85 @@ GET ../items/handledBy
             "deliveryAddressID": "23434234234234",
             "pickUpAddressID": "234235234234"
         }
+    }
+    
+POST ../addresses/create
+
+    mandatory input fields:
+    - type ['DELIVERY', 'CUSTOMER', 'BILLING', 'PICKUP']
+    - country
+    - city
+    - street
+    - houseNumber
+    
+    optional input fields:
+    - zipCode
+    - googleMapCoordinate
+    - pictureURL
+        
+    output JSON example:
+    {
+        "type": "CUSTOMER",
+        "country": "ISRAEL",
+        "id": "5d5a72baa3df7e5168422cd1",
+        "city": "Ashdod",
+        "street": "HaShonit",
+        "houseNumber": 38,
+        "zipCode": 7899456,
+        "pictureURL": [],
+        "createDate": "2019-08-19T09:58:14.630Z",
+        "updateDate": "2019-08-19T09:58:14.630Z"
+    }
+    
+GET ../addresses/address
+
+    mandatory input fields (passed as query parameters):
+    - id 
+    
+    output JSON example:
+    {
+        "type": "CUSTOMER",
+        "country": "ISRAEL",
+        "id": "5d5a6faa4ca89b176ca63505",
+        "city": "Ashdod",
+        "street": "HaShonit",
+        "houseNumber": 45,
+        "zipCode": 7899456,
+        "pictureURL": [],
+        "createDate": "2019-08-19T09:41:31.949Z",
+        "updateDate": "2019-08-19T09:56:44.593Z"
+    }
+
+POST ../addresses/update
+
+    mandatory input fields (passed as query parameters):
+    - id 
+    
+    in case and some field was not passed in input JSON, 
+    it will be erazed in DB if it was exist    
+   
+    madatory input fields (passed as JSON):
+    - type ['DELIVERY', 'CUSTOMER', 'BILLING', 'PICKUP']
+    - country
+    - city
+    - street
+    - houseNumber
+    
+    optional input fields (passed as JSON):
+    - zipCode
+    - googleMapCoordinate
+    - pictureURL
+    
+    output JSON example:
+    {
+        "type": "CUSTOMER",
+        "country": "ISRAEL",
+        "id": "5d5a6faa4ca89b176ca63505",
+        "city": "Ashdod",
+        "street": "HaShonit",
+        "houseNumber": 45,
+        "zipCode": 7899456,
+        "pictureURL": [],
+        "createDate": "2019-08-19T09:41:31.949Z",
+        "updateDate": "2019-08-19T09:59:04.186Z"
     }

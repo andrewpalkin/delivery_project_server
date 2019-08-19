@@ -66,8 +66,4 @@ router.get('/userDetails', auth, (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.get('/admin', auth, (req, res) => {
-    res.send('Admin page!');
-});
-
 module.exports = router;
