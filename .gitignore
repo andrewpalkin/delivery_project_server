@@ -1,3 +1,4 @@
 node_modules
 .idea
 /passport-local-webinar-master.iml
+package-lock.json

@@ -60,5 +60,6 @@ server.use('/', cors(corsOptions), require('./routes/index'));
 server.use('/auth',  cors(corsOptions), require('./routes/auth'));
 server.use('/users', require('./routes/users'));
 server.use('/items', require('./routes/items'));
+server.use('/addresses', require('./routes/address'));
 
 server.listen(port, () => console.log(`Example app listening on port ${port}!`));
