@@ -3,9 +3,10 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const server = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
 // DB Config
 const db = require('./config/keys').MongoURI;
@@ -49,10 +50,14 @@ require('./config/passport');
 
 server.use(passport.initialize());
 server.use(passport.session());
-
+// Cors 
+var corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
 //Routes
-server.use('/', require('./routes/index'));
-server.use('/auth', require('./routes/auth'));
+server.use('/', cors(corsOptions), require('./routes/index'));
+server.use('/auth',  cors(corsOptions), require('./routes/auth'));
 server.use('/users', require('./routes/users'));
 server.use('/items', require('./routes/items'));
 
