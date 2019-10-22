@@ -9,7 +9,9 @@ const auth = require('../utils/authentication');
 const User = require('../models/User');
 
 router.post('/login', (req, res, next) => {
-    passport.authenticate('local', function (err, user) {
+    passport.authenticate('local', function (err, user, info) {    
+        console.log('login Serice ---------------------------------', info);
+        // console.log(user);
         if (err) {
             return res.status(500).send({msg: 'Please check server for error details'});
         }
