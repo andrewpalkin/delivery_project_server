@@ -13,6 +13,25 @@ POST ../auth/register
         "verification": "SEND",
         "createDate": "2019-08-14T07:51:35.267Z"
     }
+
+     HTTP Status Codes that can be retrieved with simple message and error code:
+     
+     - 500 (Internal Server Error)
+        {
+            msg: 'Please check server for error details', 
+            errCode: 'SERVER_ERROR'
+        }
+     - 400 (Bad Request)
+        {
+            name: '%DynamicMessageName%' , 
+            msg: '%DynamicValidationMessage%' , 
+            errCode: 'VALIDATION_ERROR'
+        }
+     - 403 (Forbidden)
+        {
+            msg: 'The user with this email already exist', 
+            errCode: 'EXIST_EMAIL'
+        }  
         
 GET ../auth/verify
 
@@ -27,6 +46,29 @@ GET ../auth/verify
         "verification": "DONE",
         "createDate": "2019-08-14T07:51:35.267Z"
     }
+
+     HTTP Status Codes that can be retrieved with simple message and error code:
+     
+     - 500 (Internal Server Error)
+        {
+            msg: 'Please check server for error details', 
+            errCode: 'SERVER_ERROR'
+        }
+     - 400 (Bad Request)
+        {
+            msg: 'The current user already verified', 
+            errCode: 'ALREADY_VERIFIED'
+        }
+     - 400 (Bad Request)
+        {
+            msg: 'The user with this verification number not exist',
+            errCode: 'VERIFICATION_NUMBER_NOT_EXIST'
+        }
+     - 403 (Forbidden)
+        {
+            msg: 'The user with this email already exist', 
+            errCode: 'EXIST_EMAIL'
+        }  
     
 POST ../auth/login
     
@@ -41,6 +83,25 @@ POST ../auth/login
         "verification": "SEND",
         "createDate": "2019-08-14T07:51:35.267Z"
     }
+     
+     HTTP Status Codes that can be retrieved with simple message and error code:
+     
+     - 500 (Internal Server Error)
+        {
+            msg: 'Please check server for error details', 
+            errCode: 'SERVER_ERROR'
+        }
+     - 401 (Unauthorized)
+        {
+            msg: 'The email or password was not match in DB', 
+            errCode: 'NOT_MATCH'
+        }
+     - 403 (Forbidden)
+        {
+            msg: 'Verification of email was not done', 
+            errCode: 'VERIFICATION_NOT_DONE'
+        }        
+
         
 GET ../auth/logout
 
