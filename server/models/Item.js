@@ -5,6 +5,7 @@ const ItemSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true,
+        default: 'NEW',
         enum: ['NEW', 'ASSIGNED', 'CANCELED', 'DONE']
     },
     name: {
