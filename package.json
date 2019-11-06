@@ -4,23 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node  server/server.js",
-    "dev": "nodemon --inspect-brk server/server.js"
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "debug": "nodemon --inspect-brk server/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.0",
     "bcryptjs": "^2.4.3",
     "connect-mongo": "^3.1.2",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.7",
     "nodemailer": "^6.3.1",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "tunnel": "0.0.6"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"
